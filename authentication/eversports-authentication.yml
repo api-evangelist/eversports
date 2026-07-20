@@ -1,0 +1,26 @@
+generated: '2026-07-19'
+method: searched
+source: https://helpcenter.eversportsmanager.com/what-is-the-provider-api
+docs: https://helpcenter.eversportsmanager.com/what-is-the-provider-api
+summary:
+  types: [http]
+  http_schemes: [bearer]
+  api_key_in: []
+  oauth2_flows: []
+  notes: >-
+    Both Eversports GraphQL APIs authenticate with a static Bearer token issued
+    by Eversports on request. There is no self-serve OAuth flow and no documented
+    scope surface; the opaque token is scoped to the provider/venue account that
+    Eversports provisions. Tokens are sent on every HTTP request.
+schemes:
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    header: 'Authorization: Bearer <TOKEN>'
+    provisioning: Contact support@eversports.com; Eversports issues access credentials plus a Quick Start Guide.
+    applies_to:
+      - graphql/eversports-provider-api.graphql
+      - graphql/eversports-aggregator.graphql
+    sources:
+      - graphql/eversports-provider-api-introspection.json
+      - graphql/eversports-aggregator-introspection.json
