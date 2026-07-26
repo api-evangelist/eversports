@@ -1,0 +1,53 @@
+generated: '2026-07-19'
+method: searched
+source: https://aggregator.eversports.io/
+docs:
+  - https://aggregator.eversports.io/
+  - https://helpcenter.eversportsmanager.com/what-is-the-provider-api
+summary: >-
+  Cross-cutting request/response semantics for the Eversports GraphQL Provider
+  and Aggregator APIs. Both are GraphQL over HTTP POST, Bearer-authenticated,
+  and use Relay-style cursor pagination.
+authentication:
+  style: bearer-token
+  header: 'Authorization: Bearer <TOKEN>'
+  ref: authentication/eversports-authentication.yml
+protocol:
+  transport: GraphQL over HTTP POST
+  content_type: application/json
+  provider_api_endpoint: https://provider-api.eversportsmanager.io/api/graphql
+  aggregator_prod_endpoint: https://aggregator.eversports.io/v1/graphql
+  aggregator_test_endpoint: https://aggregator-test.eversports.io/v1/graphql
+pagination:
+  style: relay-cursor-connections
+  spec: https://relay.dev/graphql/connections.htm
+  request_params: [first, after]
+  response_fields: [edges, node, cursor, pageInfo.hasNextPage, pageInfo.endCursor]
+  notes: >-
+    List queries (activities, venues, teachers, sessions, reservations, ...) return
+    *Connection types. Aggregator listSessions caps `first` at 100 (default 50).
+idempotency:
+  supported: false
+  notes: >-
+    No idempotency-key header or parameter is documented. The Provider API is
+    read-only; the Aggregator exposes reservation mutations but publishes no
+    idempotency contract.
+versioning:
+  scheme: uri-path
+  detail: >-
+    Aggregator is versioned in the path (/v1/graphql). The Provider API is
+    unversioned. Aggregator docs state the spec is "still under active
+    development" and may change.
+  ref: lifecycle/eversports-lifecycle.yml
+error_envelope:
+  style: graphql-errors
+  detail: >-
+    Errors returned in the standard GraphQL top-level `errors[]` array
+    (message, locations, path) rather than HTTP status semantics.
+  ref: errors/eversports-error-codes.yml
+rate_limiting:
+  documented_limits: none
+  policy: >-
+    Fair-use. Eversports does not enforce request limits but monitors integrations
+    and reserves the right to restrict excessive or harmful usage. Recommended sync
+    intervals published: venues ~1h, sessions ~30m, reservations ~1 day after session end.

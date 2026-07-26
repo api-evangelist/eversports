@@ -1,0 +1,232 @@
+# Eversports Aggregator API — GraphQL schema (introspected)
+
+"""The `Boolean` scalar type represents `true` or `false`."""
+"""An opaque cursor for pagination"""
+scalar Cursor
+
+"""A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."""
+scalar Date
+
+"""A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."""
+scalar DateTime
+
+"""The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."""
+"""The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID."""
+"""The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1."""
+"""The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text."""
+"""Reservation cancellation type."""
+enum CancellationType {
+  CANCELLATION_TYPE_NONE
+  CANCELLATION_TYPE_SESSION
+  CANCELLATION_TYPE_USER_EARLY
+  CANCELLATION_TYPE_USER_LATE
+}
+
+"""Gender of a user"""
+enum Gender {
+  GENDER_FEMALE
+  GENDER_MALE
+  GENDER_OTHER
+}
+
+"""Reservation status for a user."""
+enum ReservationStatus {
+  RESERVATION_STATUS_CANCELLED
+  RESERVATION_STATUS_CHECKED_IN
+  RESERVATION_STATUS_ENROLLED
+}
+
+type Address {
+  city: String
+  country: String
+  street: String
+  zip: String
+}
+
+type Class {
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+  venue: Venue!
+}
+
+type Company {
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+  venues(after: Cursor, first: Int!): VenueConnection!
+}
+
+type Coordinate {
+  latitude: Float!
+  longitude: Float!
+}
+
+type Location {
+  city: String
+  country: String
+  id: ID!
+  street: String
+  zip: String
+}
+
+type Mutation {
+  cancelReservation(isLateCancellation: Boolean, reservationId: ID!): Reservation!
+  checkIn(reservationId: ID!): Reservation!
+  makeReservation(checkedIn: Boolean, sessionId: ID!, user: UserInput!): Reservation!
+  setAggregatorVenueId(aggregatorVenueId: String!, eversportsVenueId: ID!): Venue!
+}
+
+type OnlineStreamInformation {
+  onlineStreamLink: String
+  password: String
+  rawOnlineStreamLink: String
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Query {
+  class(id: ID!): Class!
+  company(id: ID!): Company!
+  reservation(id: ID!): Reservation!
+  reservations(after: Cursor, first: Int!, sessionId: ID!): ReservationConnection!
+  session(id: ID!): Session!
+  sessions(after: Cursor, first: Int!, hasOnlineStream: Boolean, isCancelled: Boolean, locationId: ID, timeRangeInDays: Float, updatedAfter: DateTime, venueId: ID): SessionConnection!
+  sports(after: Cursor, first: Int!): SportConnection!
+  venue(id: ID!): Venue!
+  venues(after: Cursor, first: Int!): VenueConnection!
+}
+
+type Reservation {
+  cancellationType: CancellationType!
+  id: ID!
+  onlineStreamLink: String
+  session: Session!
+  status: ReservationStatus!
+  updatedAt: DateTime!
+  userId: String!
+}
+
+type ReservationConnection {
+  edges: [ReservationEdge!]!
+  pageInfo: PageInfo!
+}
+
+type ReservationEdge {
+  cursor: Cursor!
+  node: Reservation!
+}
+
+type Room {
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+}
+
+type Session {
+  address: Address!
+  availableSpots: Int
+  bookingWindowEnd: String
+  bookingWindowStart: String
+  cancelledAt: DateTime
+  class: Class!
+  coordinate: Coordinate
+  description: String
+  end: String!
+  endv2: String!
+  hasOnlineStream: Boolean!
+  id: ID!
+  isCancelled: Boolean!
+  lateCancelWindow: String!
+  location: Location!
+  name: String!
+  onlineStreamInformation: OnlineStreamInformation
+  reservations(after: Cursor, first: Int!): ReservationConnection!
+  room: Room
+  sport: Sport!
+  start: String!
+  startv2: String!
+  teachers: [Teacher!]!
+  totalAggregatorSpots: Int
+  totalSpots: Int
+  updatedAt: DateTime!
+  venue: Venue!
+}
+
+type SessionConnection {
+  edges: [SessionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type SessionEdge {
+  cursor: Cursor!
+  node: Session!
+}
+
+type Sport {
+  id: ID!
+  name: String!
+}
+
+type SportConnection {
+  edges: [SportEdge!]!
+  pageInfo: PageInfo!
+}
+
+type SportEdge {
+  cursor: Cursor!
+  node: Sport!
+}
+
+type Teacher {
+  description: String
+  gender: Gender
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+}
+
+type Venue {
+  address: Address!
+  aggregatorVenueId: String
+  company: Company!
+  coordinate: Coordinate
+  email: String
+  id: ID!
+  name: String!
+  phone: String
+  sessions(after: Cursor, first: Int!): SessionConnection!
+  timezone: String!
+  updatedAt: DateTime!
+  website: String
+}
+
+type VenueConnection {
+  edges: [VenueEdge!]!
+  pageInfo: PageInfo!
+}
+
+type VenueEdge {
+  cursor: Cursor!
+  node: Venue!
+}
+
+input AddressInput {
+  city: String!
+  country: String!
+  street: String!
+  zip: String!
+}
+
+input UserInput {
+  address: AddressInput
+  birthday: Date
+  email: String
+  firstName: String!
+  id: String!
+  lastName: String!
+  phone: String
+}

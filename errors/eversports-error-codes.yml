@@ -1,0 +1,23 @@
+generated: '2026-07-19'
+method: derived
+source: graphql/eversports-provider-api-introspection.json, graphql/eversports-aggregator-introspection.json
+format: graphql-errors
+envelope:
+  field: errors
+  shape: >-
+    GraphQL responses carry a top-level `errors[]` array alongside (or instead of)
+    `data`. Each entry has `message`, `locations[]`, `path[]`, and optionally
+    `extensions` (implementation-specific error codes/categories). Eversports
+    publishes no dedicated numeric error-code registry; error semantics are the
+    standard GraphQL execution errors plus HTTP transport errors.
+transport_errors:
+  - status: 400
+    meaning: Malformed GraphQL query / invalid request body.
+  - status: 401
+    meaning: Missing or invalid Bearer token.
+  - status: 403
+    meaning: Token not authorized for the requested resource.
+notes: >-
+  Non-payments provider. No decline-code catalog. Validation and authorization
+  failures surface as GraphQL errors in the errors[] array; enrich when Eversports
+  publishes an error reference.

@@ -1,7 +1,30 @@
 aid: eversports
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/eversports.png
 name: Eversports
-description: Eversports is a company surfaced as a portfolio company of point-nine and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Eversports is a European sports and fitness platform that lets consumers
+  discover and book classes, courts, and memberships across studios, gyms, and
+  clubs, and gives those businesses a back-office management suite (Eversports
+  Manager) for scheduling, bookings, payments, and customer management.
+  Eversports Manager exposes two public GraphQL APIs: a read-only Provider API
+  that serves a venue's activity schedules (classes, trainings, workshops,
+  courses, events, retreats, camps, educations) with venue, teacher, room, sport,
+  and availability detail; and an Aggregator API that exposes venues, classes,
+  sessions, and reservations plus mutations to make, cancel, and check in
+  reservations for aggregator partners. Both APIs authenticate with a Bearer
+  token issued by Eversports and use Relay-style cursor pagination.
 url: https://raw.githubusercontent.com/api-evangelist/eversports/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,15 +34,93 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
-apis: []
+- Sports
+- Fitness
+- Booking
+- Scheduling
+- Wellness
+- GraphQL
+- Reservations
+- Events
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: Eversports Provider API
+  description: >-
+    Read-only GraphQL API serving a venue's activity schedules — classes,
+    trainings, workshops, courses, events, retreats, camps, and educations —
+    with venue, teacher, room, sport, and availability detail. Bearer auth,
+    Relay cursor pagination.
+  humanURL: https://helpcenter.eversportsmanager.com/what-is-the-provider-api
+  baseURL: https://provider-api.eversportsmanager.io/api/graphql
+  properties:
+  - type: GraphQL
+    url: graphql/eversports-provider-api.graphql
+  - type: Authentication
+    url: authentication/eversports-authentication.yml
+- name: Eversports Aggregator API
+  description: >-
+    GraphQL API for aggregator partners exposing venues, classes, sessions, and
+    reservations, plus mutations to make, cancel, and check in reservations.
+    Separate test and production hosts. Bearer auth, Relay cursor pagination.
+  humanURL: https://aggregator.eversports.io/
+  baseURL: https://aggregator.eversports.io/v1/graphql
+  properties:
+  - type: GraphQL
+    url: graphql/eversports-aggregator.graphql
+  - type: Authentication
+    url: authentication/eversports-authentication.yml
 common:
 - type: Website
   url: https://www.eversports.com
+- type: DeveloperPortal
+  url: https://aggregator.eversports.io/
+- type: Documentation
+  url: https://helpcenter.eversportsmanager.com/what-is-the-provider-api
+- type: Support
+  url: https://helpcenter.eversportsmanager.com/
+- type: GitHubOrganization
+  url: https://github.com/eversport
+- type: Pricing
+  url: https://www.eversportsmanager.com/pricing
+- type: SignUp
+  url: https://www.eversportsmanager.com/demo
+- type: Login
+  url: https://app.eversportsmanager.com/login
+- type: TermsOfService
+  url: https://www.eversportsmanager.com/gtc
+- type: PrivacyPolicy
+  url: https://www.eversportsmanager.com/privacy-policy
+- type: Authentication
+  url: authentication/eversports-authentication.yml
+- type: Conventions
+  url: conventions/eversports-conventions.yml
+- type: Conformance
+  url: conformance/eversports-conformance.yml
+- type: ErrorCatalog
+  url: errors/eversports-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/eversports-lifecycle.yml
+- type: Sandbox
+  url: sandbox/eversports-sandbox.yml
+- type: DataModel
+  url: data-model/eversports-data-model.yml
+- type: MCPServer
+  url: mcp/eversports-mcp.yml
+- type: LLMsTxt
+  url: llms/eversports-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/eversports-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

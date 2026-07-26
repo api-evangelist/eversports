@@ -1,0 +1,34 @@
+# Eversports
+
+> Eversports is a European sports and fitness booking platform (studios, gyms, clubs) whose Eversports Manager back office exposes two public GraphQL APIs: a read-only Provider API for activity schedules and an Aggregator API for venue/session discovery and reservations. Both authenticate with a Bearer token issued by Eversports.
+
+## APIs
+
+- [Provider API (GraphQL)](https://provider-api.eversportsmanager.io/api/graphql): Read-only access to activity schedules — classes, trainings, workshops, courses, events, retreats, camps, educations — with venue, teacher, room, sport and availability detail.
+- [Aggregator API (GraphQL)](https://aggregator.eversports.io/v1/graphql): Venues, classes, sessions and reservations, plus mutations to make/cancel/check-in reservations. Test host: https://aggregator-test.eversports.io/v1/graphql
+
+## Specs
+
+- [Provider API GraphQL schema](graphql/eversports-provider-api.graphql)
+- [Aggregator GraphQL schema](graphql/eversports-aggregator.graphql)
+
+## Docs
+
+- [Provider API FAQ](https://helpcenter.eversportsmanager.com/what-is-the-provider-api)
+- [Aggregator Lab](https://aggregator.eversports.io/)
+- [Eversports Manager Help Center](https://helpcenter.eversportsmanager.com/)
+
+## Artifacts
+
+- [Authentication](authentication/eversports-authentication.yml): Bearer token, both APIs.
+- [Conventions](conventions/eversports-conventions.yml): GraphQL over POST, Relay cursor pagination, fair-use rate policy.
+- [Data model](data-model/eversports-data-model.yml): entity graph for both APIs.
+- [Error codes](errors/eversports-error-codes.yml): GraphQL errors[] envelope.
+- [Lifecycle](lifecycle/eversports-lifecycle.yml): versioning + status.
+- [MCP tools (candidate)](mcp/eversports-mcp.yml): tools derived from the GraphQL operations.
+- [Agent skills](skills/_index.yml): sync activity schedule; list sessions and reserve.
+
+## Contact
+
+- Support: support@eversports.com
+- Provider API pricing: from EUR 50 / month / location

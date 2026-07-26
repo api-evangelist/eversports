@@ -1,0 +1,27 @@
+generated: '2026-07-19'
+method: searched
+source: https://aggregator.eversports.io/
+summary: >-
+  The Eversports Aggregator API publishes a dedicated test environment separate
+  from production, sharing the same GraphQL schema. Access requires a
+  Bearer token issued by Eversports; no self-serve/public test token or magic
+  test identifiers are published.
+environments:
+  - name: test
+    endpoint: https://aggregator-test.eversports.io/v1/graphql
+    api: Aggregator
+    auth: Bearer token (test credentials issued by Eversports)
+  - name: production
+    endpoint: https://aggregator.eversports.io/v1/graphql
+    api: Aggregator
+    auth: Bearer token
+provider_api:
+  endpoint: https://provider-api.eversportsmanager.io/api/graphql
+  test_environment: none-published
+  notes: >-
+    The Provider API exposes an interactive GraphQL explorer at its endpoint for
+    schema exploration; a separate sandbox host is not documented.
+test_values:
+  published: none
+  notes: No magic/test identifiers, test cards, or fixtures are published; test data
+    comes from the provisioned test account.

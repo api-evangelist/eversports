@@ -1,0 +1,67 @@
+generated: '2026-07-19'
+method: derived
+source: graphql/eversports-provider-api-introspection.json, graphql/eversports-aggregator-introspection.json
+apis:
+  provider:
+    schema: graphql/eversports-provider-api.graphql
+    root_entities: [Company, Venue, ActivityGroup, Activity, Teacher, Participation]
+    entities:
+      - name: Company
+        relationships:
+          - {type: has_many, target: Venue, via: venues}
+      - name: Venue
+        relationships:
+          - {type: has_one, target: Company, via: company}
+          - {type: has_one, target: Location, via: location}
+          - {type: has_many, target: Teacher, via: teachers}
+          - {type: has_many, target: Image, via: images}
+      - name: ActivityGroup
+        relationships:
+          - {type: has_one, target: Venue, via: venue}
+          - {type: has_one, target: Sport, via: sport}
+          - {type: has_many, target: Activity, via: activities}
+          - {type: has_many, target: Image, via: images}
+      - name: Activity
+        relationships:
+          - {type: has_one, target: ActivityGroup, via: activityGroup}
+          - {type: has_one, target: Location, via: location}
+          - {type: has_one, target: Room, via: room}
+          - {type: has_one, target: Teacher, via: teacher}
+          - {type: has_many, target: Participation, via: participations}
+      - name: Participation
+        relationships:
+          - {type: has_one, target: Customer, via: customer}
+      - name: Teacher
+        relationships:
+          - {type: has_one, target: Image, via: image}
+      - name: Location
+        relationships:
+          - {type: has_one, target: Coordinates, via: coordinates}
+  aggregator:
+    schema: graphql/eversports-aggregator.graphql
+    root_entities: [Company, Venue, Class, Session, Reservation, Sport]
+    entities:
+      - name: Company
+        relationships:
+          - {type: has_many, target: Venue, via: venues}
+      - name: Venue
+        relationships:
+          - {type: has_one, target: Company, via: company}
+          - {type: has_one, target: Address, via: address}
+          - {type: has_one, target: Coordinate, via: coordinate}
+          - {type: has_many, target: Session, via: sessions}
+      - name: Class
+        relationships:
+          - {type: has_one, target: Venue, via: venue}
+      - name: Session
+        relationships:
+          - {type: has_one, target: Class, via: class}
+          - {type: has_one, target: Venue, via: venue}
+          - {type: has_one, target: Location, via: location}
+          - {type: has_one, target: Room, via: room}
+          - {type: has_one, target: Sport, via: sport}
+          - {type: has_many, target: Teacher, via: teachers}
+          - {type: has_many, target: Reservation, via: reservations}
+      - name: Reservation
+        relationships:
+          - {type: has_one, target: Session, via: session}

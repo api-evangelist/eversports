@@ -1,0 +1,12 @@
+generated: '2026-07-19'
+method: generated
+source: graphql/eversports-provider-api.graphql, graphql/eversports-aggregator.graphql
+skills:
+  - file: eversports-sync-activity-schedule.md
+    name: Sync a venue's activity schedule
+    api: graphql/eversports-provider-api.graphql
+    operations: [venues, activityGroups, activities]
+  - file: eversports-book-a-session.md
+    name: List sessions and make a reservation
+    api: graphql/eversports-aggregator.graphql
+    operations: [venues, sessions, makeReservation, cancelReservation, checkIn]

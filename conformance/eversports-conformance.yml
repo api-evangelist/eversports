@@ -1,0 +1,28 @@
+generated: '2026-07-19'
+method: derived
+source: graphql/eversports-provider-api-introspection.json, graphql/eversports-aggregator-introspection.json
+standards:
+  - id: graphql
+    conforms: true
+    evidence: Both APIs are GraphQL; introspection enabled and returns a full __schema.
+  - id: relay-cursor-connections
+    conforms: true
+    evidence: List queries expose *Connection/*Edge types with pageInfo + cursor (first/after args).
+  - id: oauth2
+    conforms: false
+    evidence: Auth is a static Bearer token issued by Eversports; no OAuth2 authorization/token flow.
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use the GraphQL top-level errors[] array, not application/problem+json.
+  - id: fhir
+    conforms: false
+  - id: fapi
+    conforms: false
+  - id: scim
+    conforms: false
+  - id: odata
+    conforms: false
+  - id: json-api
+    conforms: false

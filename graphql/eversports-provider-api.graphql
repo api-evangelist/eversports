@@ -1,0 +1,301 @@
+# Eversports Provider API — GraphQL schema (introspected)
+
+"""The `Boolean` scalar type represents `true` or `false`."""
+"""A hexadecimal RGB color value like "#FF0000""""
+scalar Color
+
+"""An opaque cursor for pagination"""
+scalar Cursor
+
+"""A string representing a point in time in an [ISO Format](https://en.wikipedia.org/wiki/ISO_8601)    When providing a `DateInput` argument you can choose from multiple different formats:   - `"yyyy-MM-dd"` for just a Date: e.g. `"2022-05-13"` will be interpreted as May 13th 2022, 00:00:00h _UTC_   - `"yyyy-MM-dd[T]HH:mm"` or `"yyyy-MM-dd HH:mm"` for a date with time: e.g. `"2022-05-13 15:30"` will be interpreted as May 13th 2022, 15:30:00h in our _default timezone Europe/Vienna_, which is 14:30 _UTC_   - `"yyyy-MM-dd[T]HH:mm:ss[Z]"` for a UTC timestamp: e.g. `"2022-05-13T15:30:00Z"` with the Z denoting zero UTC offset will be interpreted as May 13th 2022, 15:30:00h _UTC_   - `"yyyy-MM-dd[T]HH:mm:ss[±]hh:mm"` for a timestamp with an arbitrary UTC offset: e.g. `"2022-05-13T15:30:00+03:00"` for 15:30 Djibouti time (with a 03:00h UTC offset) will be interpreted as May 13th 2022, 15:30:00h _Djibouti time_, which is 12:30 _UTC_"""
+scalar DateInput
+
+"""A string representing a specific point in time in the [ISO Format](https://en.wikipedia.org/wiki/ISO_8601) `"yyyy-MM-dd[T]HH:mm:ss[±]hh:mm"` containing the information in which timezone this date is happening.    For example `"2022-03-15T20:15:00+01:00"` would denote the _15th of March 2022, 20:15:00 local time in a timezone offset by 1 hour from UTC_. (e.g. Vienna)"""
+scalar DateOutput
+
+"""The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."""
+"""The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID."""
+"""The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1."""
+"""A file type descriptor. See [Image Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml#image)"""
+scalar MimeType
+
+"""The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text."""
+"""A URL"""
+scalar URL
+
+"""A classification into certain common categories of activities"""
+enum ActivityGroupType {
+  CAMP
+  CLASS
+  COURSE
+  EDUCATION
+  EVENT
+  OPEN_TRAINING
+  OTHER
+  RETREAT
+  TRAINING
+  WORKSHOP
+}
+
+enum Gender {
+  DIVERSE
+  FEMALE
+  MALE
+}
+
+"""An indication of whether a `Location` is indoor our outdoor"""
+enum LocationType {
+  LOCATION_TYPE_INDOOR
+  LOCATION_TYPE_OUTDOOR
+}
+
+"""A status indicating whether an `ActivityGroup` is publicly bookable, visible only, hidden or archived: - ACTIVE  (This ActivityGroup or the Activities it contains are active and bookable for the public) - VIEW_ONLY  (This ActivityGroup can not be booked publicly, but is still visible to the public) - HIDDEN  (This ActivityGroup is set to be hidden from the public. It might be for internal use only, not yet public or hidden after it was cancelled) - ARCHIVED  (This ActivityGroup is archived. It or its constituent Activities can not be booked.) """
+enum PublicationState {
+  ACTIVE
+  ARCHIVED
+  HIDDEN
+  VIEW_ONLY
+}
+
+"""The `Participatable` interface is shared by `Activity` and `ActivityGroup` and contains information about participating in them"""
+interface Participatable {
+  bookable: Bookable
+  detailsPageURL: URL
+  limited: Limited
+}
+
+"""An `Activity` is a single sport event happening at a specific time.    `Activities` can be individually bookable units (e.g. _Classes_) or part of a larger bookable `ActivityGroups` (e.g. _Courses_ or _Workshops_)   """
+type Activity implements Participatable {
+  activityGroup: ActivityGroup!
+  bookable: Bookable
+  detailsPageURL: URL
+  end: DateOutput!
+  hasOnlineStream: Boolean!
+  id: ID!
+  isArchived: Boolean!
+  isCancelled: Boolean!
+  limited: Limited
+  location: Location
+  name: String
+  participations(after: Cursor, first: Int): ParticipationConnection!
+  room: Room
+  start: DateOutput!
+  teacher: Teacher
+}
+
+"""A _paginated_ result set of "Activity" items following the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)"""
+type ActivityConnection {
+  edges: [ActivityEdge!]!
+  nodes: [Activity!]!
+  pageInfo: PageInfo!
+}
+
+type ActivityEdge {
+  cursor: Cursor!
+  node: Activity!
+}
+
+"""An `ActivityGroup` is a group or series typically consisting of multiple `Activities`.    `ActivityGroup` can be bookable units as a whole (e.g. a _Course_) or just a series of individually bookable `Activities` (e.g. a _Class_)"""
+type ActivityGroup implements Participatable {
+  activities(after: Cursor, first: Int): ActivityConnection!
+  bookable: Bookable
+  color: Color
+  description: FormattedText!
+  detailsPageURL: URL
+  id: ID!
+  images(after: Cursor, first: Int): ImageConnection!
+  limited: Limited
+  name: String!
+  publicationState: PublicationState!
+  sport: Sport
+  type: ActivityGroupType!
+  venue: Venue!
+}
+
+"""A _paginated_ result set of "ActivityGroup" items following the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)"""
+type ActivityGroupConnection {
+  edges: [ActivityGroupEdge!]!
+  nodes: [ActivityGroup!]!
+  pageInfo: PageInfo!
+}
+
+type ActivityGroupEdge {
+  cursor: Cursor!
+  node: ActivityGroup!
+}
+
+"""A `Bookable` object contains information about the booking of an `Activity` or  `ActivityGroup`"""
+type Bookable {
+  bookableWindowEnd: DateOutput
+  bookableWindowStart: DateOutput
+  cancellationDeadline: DateOutput!
+  checkoutURL: URL!
+}
+
+"""A `Company` is a legal entity comprising one or more `Venues`"""
+type Company {
+  id: ID!
+  name: String!
+  venues(after: Cursor, first: Int): VenueConnection!
+}
+
+"""A _paginated_ result set of "Company" items following the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)"""
+type CompanyConnection {
+  edges: [CompanyEdge!]!
+  nodes: [Company!]!
+  pageInfo: PageInfo!
+}
+
+type CompanyEdge {
+  cursor: Cursor!
+  node: Company!
+}
+
+"""A pair of decimal degrees representing a point on earths surface"""
+type Coordinates {
+  latitude: Float!
+  longitude: Float!
+}
+
+type Customer {
+  email: String
+  firstName: String!
+  id: ID!
+  lastName: String!
+}
+
+"""A freetext possibly containing markup like lists, paragraphs, emphasis etc."""
+type FormattedText {
+  html: String!
+  plainText: String!
+}
+
+type Image {
+  description: String
+  mimeType: MimeType!
+  url: URL!
+}
+
+"""A _paginated_ result set of "Image" items following the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)"""
+type ImageConnection {
+  edges: [ImageEdge!]!
+  nodes: [Image!]!
+  pageInfo: PageInfo!
+}
+
+type ImageEdge {
+  cursor: Cursor!
+  node: Image!
+}
+
+type Limited {
+  freeSpots: Int!
+  totalSpots: Int!
+}
+
+"""A physical location"""
+type Location {
+  city: String
+  coordinates: Coordinates
+  country: String
+  name: String
+  street: String
+  type: LocationType!
+  zip: String
+}
+
+type PageInfo {
+  endCursor: Cursor
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+}
+
+type Participation {
+  attended: Boolean!
+  customer: Customer
+  id: ID!
+}
+
+"""A _paginated_ result set of "Participation" items following the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)"""
+type ParticipationConnection {
+  edges: [ParticipationEdge!]!
+  nodes: [Participation!]!
+  pageInfo: PageInfo!
+}
+
+type ParticipationEdge {
+  cursor: Cursor!
+  node: Participation!
+}
+
+type Query {
+  activities(activityGroupIds: [ID!], activityGroupPublicationStates: [PublicationState!], activityGroupTypes: [ActivityGroupType!], after: Cursor, first: Int, hasOnlineStream: Boolean, isArchived: Boolean, isBookableUnit: Boolean, isCancelled: Boolean, roomIds: [ID!], sportIds: [ID!], teacherIds: [ID!], timeRange: TimeRangeInput, venueIds: [ID!]): ActivityConnection!
+  activity(id: ID!): Activity!
+  activityGroup(id: ID!): ActivityGroup!
+  activityGroups(after: Cursor, first: Int, isBookableUnit: Boolean, publicationStates: [PublicationState!], sportIds: [ID!], teacherIds: [ID!], timeRange: TimeRangeInput, types: [ActivityGroupType!], venueIds: [ID!]): ActivityGroupConnection!
+  companies(after: Cursor, first: Int): CompanyConnection!
+  company(id: ID!): Company!
+  teacher(id: ID!): Teacher!
+  teachers(after: Cursor, first: Int, venueIds: [ID!]): TeacherConnection!
+  venue(id: ID!): Venue!
+  venues(after: Cursor, first: Int): VenueConnection!
+}
+
+type Room {
+  id: ID!
+  name: String!
+}
+
+type Sport {
+  id: ID!
+  name: String!
+}
+
+type Teacher {
+  description: FormattedText
+  education: FormattedText
+  gender: Gender
+  id: ID!
+  image: Image
+  name: String!
+}
+
+"""A _paginated_ result set of "Teacher" items following the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)"""
+type TeacherConnection {
+  edges: [TeacherEdge!]!
+  nodes: [Teacher!]!
+  pageInfo: PageInfo!
+}
+
+type TeacherEdge {
+  cursor: Cursor!
+  node: Teacher!
+}
+
+"""A `Venue` is a provider of `Activities`. This is usually a physical location like a _Studio_ or _Gym_."""
+type Venue {
+  company: Company!
+  id: ID!
+  images(after: Cursor, first: Int): ImageConnection!
+  location: Location!
+  name: String!
+  teachers(after: Cursor, first: Int): TeacherConnection!
+}
+
+"""A _paginated_ result set of "Venue" items following the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)"""
+type VenueConnection {
+  edges: [VenueEdge!]!
+  nodes: [Venue!]!
+  pageInfo: PageInfo!
+}
+
+type VenueEdge {
+  cursor: Cursor!
+  node: Venue!
+}
+
+input TimeRangeInput {
+  end: DateInput
+  start: DateInput
+}
