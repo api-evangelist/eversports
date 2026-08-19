@@ -2,40 +2,88 @@ generated: '2026-07-19'
 method: derived
 status: candidate
 source: graphql/eversports-provider-api-introspection.json, graphql/eversports-aggregator-introspection.json
-note: >-
-  No official Eversports MCP server was found. This is a candidate tool list
-  derived from the GraphQL query/mutation surface of the Provider and Aggregator
-  APIs. Each tool maps to a GraphQL operation; auth is a Bearer token.
+note: No official Eversports MCP server was found. This is a candidate tool list derived from the GraphQL
+  query/mutation surface of the Provider and Aggregator APIs. Each tool maps to a GraphQL operation; auth
+  is a Bearer token.
 servers:
-  - name: eversports-provider
-    transport: http
-    schema: graphql/eversports-provider-api.graphql
-    endpoint: https://provider-api.eversportsmanager.io/api/graphql
-    tools:
-      - {name: list_activities, description: List activity instances (classes/trainings/workshops) with filters, source_operation: 'graphql/eversports-provider-api.graphql#Query.activities'}
-      - {name: get_activity, description: Get a single activity by id, source_operation: 'graphql/eversports-provider-api.graphql#Query.activity'}
-      - {name: list_activity_groups, description: List activity groups, source_operation: 'graphql/eversports-provider-api.graphql#Query.activityGroups'}
-      - {name: get_activity_group, description: Get an activity group by id, source_operation: 'graphql/eversports-provider-api.graphql#Query.activityGroup'}
-      - {name: list_companies, description: List companies, source_operation: 'graphql/eversports-provider-api.graphql#Query.companies'}
-      - {name: get_company, description: Get a company by id, source_operation: 'graphql/eversports-provider-api.graphql#Query.company'}
-      - {name: list_teachers, description: List teachers, source_operation: 'graphql/eversports-provider-api.graphql#Query.teachers'}
-      - {name: get_teacher, description: Get a teacher by id, source_operation: 'graphql/eversports-provider-api.graphql#Query.teacher'}
-      - {name: list_venues, description: List venues, source_operation: 'graphql/eversports-provider-api.graphql#Query.venues'}
-      - {name: get_venue, description: Get a venue by id, source_operation: 'graphql/eversports-provider-api.graphql#Query.venue'}
-  - name: eversports-aggregator
-    transport: http
-    schema: graphql/eversports-aggregator.graphql
-    endpoint: https://aggregator.eversports.io/v1/graphql
-    tools:
-      - {name: list_venues, description: List venues, source_operation: 'graphql/eversports-aggregator.graphql#Query.venues'}
-      - {name: get_venue, description: Get a venue by id, source_operation: 'graphql/eversports-aggregator.graphql#Query.venue'}
-      - {name: list_sessions, description: List sessions with filters, source_operation: 'graphql/eversports-aggregator.graphql#Query.sessions'}
-      - {name: get_session, description: Get a session by id, source_operation: 'graphql/eversports-aggregator.graphql#Query.session'}
-      - {name: get_class, description: Get a class by id, source_operation: 'graphql/eversports-aggregator.graphql#Query.class'}
-      - {name: list_reservations, description: List reservations for a session, source_operation: 'graphql/eversports-aggregator.graphql#Query.reservations'}
-      - {name: get_reservation, description: Get a reservation by id, source_operation: 'graphql/eversports-aggregator.graphql#Query.reservation'}
-      - {name: list_sports, description: List sports, source_operation: 'graphql/eversports-aggregator.graphql#Query.sports'}
-      - {name: make_reservation, description: Create a reservation for a user on a session, source_operation: 'graphql/eversports-aggregator.graphql#Mutation.makeReservation'}
-      - {name: cancel_reservation, description: Cancel a reservation, source_operation: 'graphql/eversports-aggregator.graphql#Mutation.cancelReservation'}
-      - {name: check_in, description: Check in a reservation, source_operation: 'graphql/eversports-aggregator.graphql#Mutation.checkIn'}
-      - {name: set_aggregator_venue_id, description: Map an aggregator venue id to an Eversports venue, source_operation: 'graphql/eversports-aggregator.graphql#Mutation.setAggregatorVenueId'}
+- name: eversports-provider
+  transport: http
+  schema: graphql/eversports-provider-api.graphql
+  endpoint: https://provider-api.eversportsmanager.io/api/graphql
+  tools:
+  - name: list_activities
+    description: List activity instances (classes/trainings/workshops) with filters
+    source_operation: graphql/eversports-provider-api.graphql#Query.activities
+  - name: get_activity
+    description: Get a single activity by id
+    source_operation: graphql/eversports-provider-api.graphql#Query.activity
+  - name: list_activity_groups
+    description: List activity groups
+    source_operation: graphql/eversports-provider-api.graphql#Query.activityGroups
+  - name: get_activity_group
+    description: Get an activity group by id
+    source_operation: graphql/eversports-provider-api.graphql#Query.activityGroup
+  - name: list_companies
+    description: List companies
+    source_operation: graphql/eversports-provider-api.graphql#Query.companies
+  - name: get_company
+    description: Get a company by id
+    source_operation: graphql/eversports-provider-api.graphql#Query.company
+  - name: list_teachers
+    description: List teachers
+    source_operation: graphql/eversports-provider-api.graphql#Query.teachers
+  - name: get_teacher
+    description: Get a teacher by id
+    source_operation: graphql/eversports-provider-api.graphql#Query.teacher
+  - name: list_venues
+    description: List venues
+    source_operation: graphql/eversports-provider-api.graphql#Query.venues
+  - name: get_venue
+    description: Get a venue by id
+    source_operation: graphql/eversports-provider-api.graphql#Query.venue
+- name: eversports-aggregator
+  transport: http
+  schema: graphql/eversports-aggregator.graphql
+  endpoint: https://aggregator.eversports.io/v1/graphql
+  tools:
+  - name: list_venues
+    description: List venues
+    source_operation: graphql/eversports-aggregator.graphql#Query.venues
+  - name: get_venue
+    description: Get a venue by id
+    source_operation: graphql/eversports-aggregator.graphql#Query.venue
+  - name: list_sessions
+    description: List sessions with filters
+    source_operation: graphql/eversports-aggregator.graphql#Query.sessions
+  - name: get_session
+    description: Get a session by id
+    source_operation: graphql/eversports-aggregator.graphql#Query.session
+  - name: get_class
+    description: Get a class by id
+    source_operation: graphql/eversports-aggregator.graphql#Query.class
+  - name: list_reservations
+    description: List reservations for a session
+    source_operation: graphql/eversports-aggregator.graphql#Query.reservations
+  - name: get_reservation
+    description: Get a reservation by id
+    source_operation: graphql/eversports-aggregator.graphql#Query.reservation
+  - name: list_sports
+    description: List sports
+    source_operation: graphql/eversports-aggregator.graphql#Query.sports
+  - name: make_reservation
+    description: Create a reservation for a user on a session
+    source_operation: graphql/eversports-aggregator.graphql#Mutation.makeReservation
+  - name: cancel_reservation
+    description: Cancel a reservation
+    source_operation: graphql/eversports-aggregator.graphql#Mutation.cancelReservation
+  - name: check_in
+    description: Check in a reservation
+    source_operation: graphql/eversports-aggregator.graphql#Mutation.checkIn
+  - name: set_aggregator_venue_id
+    description: Map an aggregator venue id to an Eversports venue
+    source_operation: graphql/eversports-aggregator.graphql#Mutation.setAggregatorVenueId
+deployment:
+  mode: none
+  verified: derived
+  checked: '2026-08-12'
+  source: catalog MCP census
