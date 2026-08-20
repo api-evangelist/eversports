@@ -44,6 +44,16 @@ tags:
 - Wellness
 - GraphQL
 - Reservations
+- Event
+tags_raw:
+- Company
+- Sports
+- Fitness
+- Booking
+- Scheduling
+- Wellness
+- GraphQL
+- Reservations
 - Events
 maintainers:
 - FN: Kin Lane
