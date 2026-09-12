@@ -26,18 +26,7 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/eversports.png
 name: Eversports
-description: >-
-  Eversports is a European sports and fitness platform that lets consumers
-  discover and book classes, courts, and memberships across studios, gyms, and
-  clubs, and gives those businesses a back-office management suite (Eversports
-  Manager) for scheduling, bookings, payments, and customer management.
-  Eversports Manager exposes two public GraphQL APIs: a read-only Provider API
-  that serves a venue's activity schedules (classes, trainings, workshops,
-  courses, events, retreats, camps, educations) with venue, teacher, room, sport,
-  and availability detail; and an Aggregator API that exposes venues, classes,
-  sessions, and reservations plus mutations to make, cancel, and check in
-  reservations for aggregator partners. Both APIs authenticate with a Bearer
-  token issued by Eversports and use Relay-style cursor pagination.
+description: 'Eversports is a European sports and fitness platform that lets consumers discover and book classes, courts, and memberships across studios, gyms, and clubs, and gives those businesses a back-office management suite (Eversports Manager) for scheduling, bookings, payments, and customer management. Eversports Manager exposes two public GraphQL APIs: a read-only Provider API that serves a venue''s activity schedules (classes, trainings, workshops, courses, events, retreats, camps, educations) with venue, teacher, room, sport, and availability detail; and an Aggregator API that exposes venues, classes, sessions, and reservations plus mutations to make, cancel, and check in reservations for aggregator partners. Both APIs authenticate with a Bearer token issued by Eversports and use Relay-style cursor pagination.'
 url: https://raw.githubusercontent.com/api-evangelist/eversports/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -75,11 +64,7 @@ maintainers:
   email: info@apis.io
 apis:
 - name: Eversports Provider API
-  description: >-
-    Read-only GraphQL API serving a venue's activity schedules — classes,
-    trainings, workshops, courses, events, retreats, camps, and educations —
-    with venue, teacher, room, sport, and availability detail. Bearer auth,
-    Relay cursor pagination.
+  description: Read-only GraphQL API serving a venue's activity schedules — classes, trainings, workshops, courses, events, retreats, camps, and educations — with venue, teacher, room, sport, and availability detail. Bearer auth, Relay cursor pagination.
   humanURL: https://helpcenter.eversportsmanager.com/what-is-the-provider-api
   baseURL: https://provider-api.eversportsmanager.io/api/graphql
   properties:
@@ -88,10 +73,7 @@ apis:
   - type: Authentication
     url: authentication/eversports-authentication.yml
 - name: Eversports Aggregator API
-  description: >-
-    GraphQL API for aggregator partners exposing venues, classes, sessions, and
-    reservations, plus mutations to make, cancel, and check in reservations.
-    Separate test and production hosts. Bearer auth, Relay cursor pagination.
+  description: GraphQL API for aggregator partners exposing venues, classes, sessions, and reservations, plus mutations to make, cancel, and check in reservations. Separate test and production hosts. Bearer auth, Relay cursor pagination.
   humanURL: https://aggregator.eversports.io/
   baseURL: https://aggregator.eversports.io/v1/graphql
   properties:
@@ -99,6 +81,11 @@ apis:
     url: graphql/eversports-aggregator.graphql
   - type: Authentication
     url: authentication/eversports-authentication.yml
+- name: Eversports Integration API (v2)
+  description: Legacy JSON:API REST integration API used by aggregator and partner systems to manage users, venues, courts, and orders on the Eversports platform. Requests and responses follow the jsonapi.org format with the application/vnd.api+json media type; external systems use client-side IDs and PUT for order upserts.
+  humanURL: https://gist.github.com/thomasfr/e236f256a29f748b7956
+  baseURL: https://api.eversport.at/v2
+  properties: []
 common:
 - type: Website
   url: https://www.eversports.com
